@@ -23,3 +23,4 @@ const IsPlan9 = 0
 const IsSolaris = 1
 const IsWindows = 0
 const IsZos = 0
+const IsVxworks = 0

@@ -29,6 +29,7 @@ var knownOS = map[string]bool{
 	"solaris":   true,
 	"windows":   true,
 	"zos":       true,
+	"vxworks":   true,
 }
 
 // unixOS is the set of GOOS values matched by the "unix" build tag.
@@ -47,6 +48,7 @@ var unixOS = map[string]bool{
 	"netbsd":    true,
 	"openbsd":   true,
 	"solaris":   true,
+	// TODO:PORT unsure if vxworks should be added to unixOS
 }
 
 // knownArch is the list of past, present, and future known GOARCH values.
