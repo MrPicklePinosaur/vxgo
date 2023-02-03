@@ -363,6 +363,17 @@ windows_*)
 	echo 'run "go generate" instead' 1>&2
 	exit 1
 	;;
+# TODO:PORT currently duplicate of linux_amd64
+vxworks_amd64)
+	unistd_h=$(ls -1 /usr/include/asm/unistd_64.h /usr/include/x86_64-linux-gnu/asm/unistd_64.h 2>/dev/null | head -1)
+	if [ "$unistd_h" = "" ]; then
+		echo >&2 cannot find unistd_64.h
+		exit 1
+	fi
+	mkerrors="$mkerrors -m64"
+	mksysnum="./mksysnum_vxworks.pl $unistd_h"
+	mktypes="GOARCH=$GOARCH go tool cgo -godefs"
+	;;
 *)
 	echo 'unrecognized $GOOS_$GOARCH: ' "$GOOSARCH" 1>&2
 	exit 1

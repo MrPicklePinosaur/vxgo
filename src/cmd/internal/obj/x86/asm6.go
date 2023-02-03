@@ -2538,6 +2538,10 @@ func prefixof(ctxt *obj.Link, a *obj.Addr) int {
 					return 0x64 // FS
 				}
 
+			// TODO:PORT
+			case objabi.Hvxworks:
+				return 0x64
+
 			case objabi.Hdragonfly,
 				objabi.Hfreebsd,
 				objabi.Hnetbsd,
@@ -5086,6 +5090,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 						// are handled in prefixof above and should not be listed here.
 						switch ctxt.Headtype {
 						default:
+
 							log.Fatalf("unknown TLS base location for %v", ctxt.Headtype)
 
 						case objabi.Hlinux, objabi.Hfreebsd:
