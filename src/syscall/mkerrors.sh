@@ -150,6 +150,56 @@ includes_Linux='
 #endif
 '
 
+includes_Vxworks='
+#define _LARGEFILE_SOURCE
+#define _LARGEFILE64_SOURCE
+#ifndef __LP64__
+#define _FILE_OFFSET_BITS 64
+#endif
+#define _GNU_SOURCE
+
+#include <bits/sockaddr.h>
+#include <sys/epoll.h>
+#include <sys/inotify.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/mount.h>
+#include <sys/prctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/socket.h>
+#include <linux/if.h>
+#include <linux/if_arp.h>
+#include <linux/if_ether.h>
+#include <linux/if_tun.h>
+#include <linux/if_packet.h>
+#include <linux/if_addr.h>
+#include <linux/filter.h>
+#include <linux/netlink.h>
+#include <linux/reboot.h>
+#include <linux/rtnetlink.h>
+#include <linux/ptrace.h>
+#include <linux/sched.h>
+#include <linux/serial.h>
+#include <linux/wait.h>
+#include <linux/icmpv6.h>
+#include <net/route.h>
+#include <termios.h>
+
+#ifndef MSG_FASTOPEN
+#define MSG_FASTOPEN    0x20000000
+#endif
+
+#ifndef PTRACE_GETREGS
+#define PTRACE_GETREGS	0xc
+#endif
+
+#ifndef PTRACE_SETREGS
+#define PTRACE_SETREGS	0xd
+#endif
+'
+
 includes_NetBSD='
 #include <sys/types.h>
 #include <sys/param.h>
