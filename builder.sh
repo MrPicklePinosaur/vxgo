@@ -29,8 +29,8 @@ build_next() {
     export GOARCH="amd64"
 
     cd src
-    # $GOROOT/bin/go install cmd/compile
-    ./make.bash
+    $GOROOT/bin/go install cmd/compile
+    # ./make.bash
 }
 
 # build next with system toolchain
