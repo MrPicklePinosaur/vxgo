@@ -4,7 +4,7 @@
 
 // Support for sanitizers. See runtime/cgo/sigaction.go.
 
-//go:build (linux && amd64) || (freebsd && amd64) || (linux && arm64) || (linux && ppc64le)
+//go:build (linux && amd64) || (freebsd && amd64) || (linux && arm64) || (linux && ppc64le) || (vxworks && amd64)
 
 package runtime
 
