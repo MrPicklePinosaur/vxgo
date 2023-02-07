@@ -953,6 +953,7 @@ var unixOS = map[string]bool{
 	"netbsd":    true,
 	"openbsd":   true,
 	"solaris":   true,
+	"vxworks":   true,
 	// TODO:PORT unsure if vxworks should be added to unixOS
 }
 
