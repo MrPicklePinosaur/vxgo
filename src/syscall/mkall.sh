@@ -364,6 +364,7 @@ windows_*)
 	exit 1
 	;;
 # TODO:PORT currently duplicate of linux_amd64
+# NOTE: we don't actually autogenerate the vxworks files rn, just copy the linux ones
 vxworks_amd64)
 	unistd_h=$(ls -1 /usr/include/asm/unistd_64.h /usr/include/x86_64-linux-gnu/asm/unistd_64.h 2>/dev/null | head -1)
 	if [ "$unistd_h" = "" ]; then

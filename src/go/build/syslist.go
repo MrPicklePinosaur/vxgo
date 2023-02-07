@@ -48,7 +48,8 @@ var unixOS = map[string]bool{
 	"netbsd":    true,
 	"openbsd":   true,
 	"solaris":   true,
-	// TODO:PORT unsure if vxworks should be added to unixOS
+	"vxworks":   true,
+	// TODO:PORT unsure if vxworks should be added to unixOS (keeping it here for now)
 }
 
 // knownArch is the list of past, present, and future known GOARCH values.

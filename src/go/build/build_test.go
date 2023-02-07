@@ -378,6 +378,8 @@ func (r readNopCloser) Close() error {
 var (
 	ctxtP9      = Context{GOARCH: "arm", GOOS: "plan9"}
 	ctxtAndroid = Context{GOARCH: "arm", GOOS: "android"}
+	ctxtVxworks = Context{GOARCH: "amd64", GOOS: "vxworks"}
+	ctxtLinux = Context{GOARCH: "amd64", GOOS: "linux"}
 )
 
 var matchFileTests = []struct {
@@ -400,6 +402,10 @@ var matchFileTests = []struct {
 	{ctxtAndroid, "plan9_test.go", "", true},
 	{ctxtAndroid, "arm.s", "", true},
 	{ctxtAndroid, "amd64.s", "", true},
+	{ctxtVxworks, "foo_vxworks.go", "", true},
+	{ctxtVxworks, "foo_linux.go", "", false},
+	{ctxtLinux, "foo_vxworks.go", "", false},
+	{ctxtLinux, "foo_linux.go", "", true},
 }
 
 func TestMatchFile(t *testing.T) {
