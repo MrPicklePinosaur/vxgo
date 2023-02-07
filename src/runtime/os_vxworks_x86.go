@@ -2,10 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build dragonfly || freebsd || linux || netbsd || openbsd || solaris || vxworks
+//go:build vxworks && (386 || amd64)
 
 package runtime
 
-func nonblockingPipe() (r, w int32, errno int32) {
-	return pipe2(_O_NONBLOCK | _O_CLOEXEC)
-}
+func osArchInit() {}
