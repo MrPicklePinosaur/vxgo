@@ -32,8 +32,22 @@ build_next() {
     ./make.bash
 }
 
+# build next with system toolchain
+build_next_system() {
+    export GCFLAGS="" # disable optimizations
+    export GOROOT_BOOTSTRAP="" # which go compiler to use to build
+    export GOROOT="$(pwd)"
+    export GOOS="linux"
+    export GOARCH="amd64"
+
+    cd src
+    ./make.bash
+}
+
+
 case $1 in
     bootstrap) build_bootstrap;;
     next) build_next;;
+    next_system) build_next_system;;
     *) echo "invalid operation";;
 esac

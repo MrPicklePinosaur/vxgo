@@ -1,9 +1,7 @@
 // +build vxworks,amd64
 
 // Created by cgo -godefs - DO NOT EDIT
-// cgo -godefs types_vxworks.go
-
-//go:build amd64 && vxworks
+// cgo -godefs types_linux.go
 
 package syscall
 
