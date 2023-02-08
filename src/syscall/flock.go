@@ -1,4 +1,4 @@
-//go:build linux || freebsd || openbsd || netbsd || dragonfly
+//go:build linux || freebsd || openbsd || netbsd || dragonfly || vxworks
 
 // Copyright 2014 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
