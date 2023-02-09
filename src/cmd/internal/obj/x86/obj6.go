@@ -51,7 +51,8 @@ func CanUse1InsnTLS(ctxt *obj.Link) bool {
 		switch ctxt.Headtype {
 		case objabi.Hlinux,
 			objabi.Hplan9,
-			objabi.Hwindows:
+			objabi.Hwindows,
+			objabi.Hvxworks:
 			return false
 		}
 
@@ -61,7 +62,7 @@ func CanUse1InsnTLS(ctxt *obj.Link) bool {
 	switch ctxt.Headtype {
 	case objabi.Hplan9, objabi.Hwindows:
 		return false
-	case objabi.Hlinux, objabi.Hfreebsd:
+	case objabi.Hlinux, objabi.Hfreebsd, objabi.Hvxworks:
 		return !ctxt.Flag_shared
 	}
 

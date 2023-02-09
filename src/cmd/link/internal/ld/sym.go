@@ -73,7 +73,7 @@ func linknew(arch *sys.Arch) *Link {
 func (ctxt *Link) computeTLSOffset() {
 	switch ctxt.HeadType {
 	default:
-		log.Fatalf("unknown thread-local storage offset for %v", ctxt.HeadType)
+		log.Fatalf("unknown thread-local storage offset for %v, %v", ctxt.HeadType, objabi.Hvxworks)
 
 	case objabi.Hplan9, objabi.Hwindows, objabi.Hjs, objabi.Haix:
 		break
@@ -83,7 +83,8 @@ func (ctxt *Link) computeTLSOffset() {
 		objabi.Hnetbsd,
 		objabi.Hopenbsd,
 		objabi.Hdragonfly,
-		objabi.Hsolaris:
+		objabi.Hsolaris,
+		objabi.Hvxworks:
 		/*
 		 * ELF uses TLS offset negative from FS.
 		 * Translate 0(FS) and 8(FS) into -16(FS) and -8(FS).

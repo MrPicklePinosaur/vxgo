@@ -86,7 +86,8 @@ func archinit(ctxt *ld.Link) {
 		}
 
 	case objabi.Hlinux, /* mips64 elf */
-		objabi.Hopenbsd:
+		objabi.Hopenbsd,
+		objabi.Hvxworks:
 		ld.Elfinit(ctxt)
 		ld.HEADR = ld.ELFRESERVE
 		if *ld.FlagTextAddr == -1 {

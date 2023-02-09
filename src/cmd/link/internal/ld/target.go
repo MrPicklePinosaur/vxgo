@@ -136,6 +136,8 @@ func (t *Target) IsWasm() bool {
 // OS Functions
 //
 
+// TODO:PORT need isVxworks maybe?
+
 func (t *Target) IsLinux() bool {
 	t.mustSetHeadType()
 	return t.HeadType == objabi.Hlinux
