@@ -1,5 +1,7 @@
 #!/bin/sh
 
+BOOTSTRAP_VERSION="vxworks_0.2"
+
 # utility script used in process of porting golang to vxworks
 
 # build the bootstrap compiler
@@ -11,7 +13,7 @@ build_bootstrap() {
     export GOROOT="$(pwd)"
     export GOTOOLSDIR="./pkg/" # where to install tools
 
-    INSTALL_DIR="$HOME/Temp/go_versions/vxworks"
+    INSTALL_DIR="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION"
 
     cd src
     ./make.bash
@@ -22,15 +24,16 @@ build_bootstrap() {
 }
 
 build_next() {
+    export CGO_ENABLED="1"
     export GCFLAGS="" # disable optimizations
-    export GOROOT_BOOTSTRAP="$HOME/Temp/go_versions/vxworks" # which go compiler to use to build
+    export GOROOT_BOOTSTRAP="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION" # which go compiler to use to build
     export GOROOT="$(pwd)"
-    export GOOS="linux"
+    export GOOS="vxworks"
     export GOARCH="amd64"
 
     cd src
-    # $GOROOT/bin/go install cmd/compile
-    ./make.bash
+    $GOROOT/bin/go install -tags unix cmd/compile
+    # ./make.bash
 }
 
 # build next with system toolchain
@@ -45,10 +48,23 @@ build_next_system() {
     ./make.bash
 }
 
+build_vxworks() {
+    export GCFLAGS="-tags unix" # disable optimizations
+    export GOROOT_BOOTSTRAP="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION" # which go compiler to use to build
+    export GOROOT="$(pwd)"
+    export GOOS="vxworks"
+    export GOARCH="amd64"
+
+    cd src
+    # $GOROOT/bin/go install cmd/compile
+    ./make.bash
+}
+
 
 case $1 in
     bootstrap) build_bootstrap;;
     next) build_next;;
     next_system) build_next_system;;
+    vxworks) build_vxworks;;
     *) echo "invalid operation";;
 esac
