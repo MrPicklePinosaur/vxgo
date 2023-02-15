@@ -1502,6 +1502,7 @@ func (ctxt *Link) hostlink() {
 			altLinker = "lld"
 		}
 
+		// TODO:PORT maybe add vxworks here?
 		if ctxt.Arch.InFamily(sys.ARM, sys.ARM64) && buildcfg.GOOS == "linux" {
 			// On ARM, the GNU linker will generate COPY relocations
 			// even with -znocopyreloc set.

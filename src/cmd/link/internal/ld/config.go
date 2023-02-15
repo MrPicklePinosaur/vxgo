@@ -42,7 +42,7 @@ func (mode *BuildMode) Set(s string) error {
 		}
 	case "pie":
 		switch buildcfg.GOOS {
-		case "aix", "android", "linux", "windows", "darwin", "ios":
+		case "aix", "android", "linux", "windows", "darwin", "ios", "vxworks":
 		case "freebsd":
 			switch buildcfg.GOARCH {
 			case "amd64":
@@ -55,7 +55,7 @@ func (mode *BuildMode) Set(s string) error {
 		*mode = BuildModePIE
 	case "c-archive":
 		switch buildcfg.GOOS {
-		case "aix", "darwin", "ios", "linux":
+		case "aix", "darwin", "ios", "linux", "vxworks":
 		case "freebsd":
 			switch buildcfg.GOARCH {
 			case "amd64":
@@ -81,7 +81,7 @@ func (mode *BuildMode) Set(s string) error {
 		*mode = BuildModeCShared
 	case "shared":
 		switch buildcfg.GOOS {
-		case "linux":
+		case "linux", "vxworks":
 			switch buildcfg.GOARCH {
 			case "386", "amd64", "arm", "arm64", "ppc64le", "s390x":
 			default:
@@ -93,7 +93,7 @@ func (mode *BuildMode) Set(s string) error {
 		*mode = BuildModeShared
 	case "plugin":
 		switch buildcfg.GOOS {
-		case "linux":
+		case "linux", "vxworks":
 			switch buildcfg.GOARCH {
 			case "386", "amd64", "arm", "arm64", "s390x", "ppc64le":
 			default:
@@ -227,6 +227,7 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		switch buildcfg.GOOS + "/" + buildcfg.GOARCH {
 		case "android/arm64":
 		case "linux/amd64", "linux/arm64", "linux/ppc64le":
+		case "vxworks/amd64", "vxworks/arm64", "vxworks/ppc64le":
 		case "windows/386", "windows/amd64", "windows/arm", "windows/arm64":
 		case "darwin/amd64", "darwin/arm64":
 		default:
