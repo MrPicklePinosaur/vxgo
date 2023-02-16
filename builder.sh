@@ -25,31 +25,34 @@ build_bootstrap() {
 
 build_next() {
     export CGO_ENABLED="1"
-    export GCFLAGS="" # disable optimizations
+    export GCFLAGS="all=-N -l" # disable optimizations
     export GOROOT_BOOTSTRAP="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION" # which go compiler to use to build
     export GOROOT="$(pwd)"
-    export GOOS="vxworks"
+    export GOOS="linux"
     export GOARCH="amd64"
 
     cd src
-    $GOROOT/bin/go install -tags unix cmd/compile
+    $GOROOT/bin/go install cmd/compile
+    $GOROOT/bin/go install cmd/link
     # ./make.bash
 }
 
 # build next with system toolchain
 build_next_system() {
-    export GCFLAGS="" # disable optimizations
+    export GCFLAGS="all=-N -l" # disable optimizations
     export GOROOT_BOOTSTRAP="" # which go compiler to use to build
     export GOROOT="$(pwd)"
     export GOOS="linux"
     export GOARCH="amd64"
 
     cd src
-    ./make.bash
+    # ./make.bash
+    $GOROOT/bin/go install cmd/compile
 }
 
 build_vxworks() {
-    export GCFLAGS="-tags unix" # disable optimizations
+    export CGO_ENABLED="1"
+    export GCFLAGS="all=-N -l -tags unix" # disable optimizations
     export GOROOT_BOOTSTRAP="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION" # which go compiler to use to build
     export GOROOT="$(pwd)"
     export GOOS="vxworks"
@@ -57,7 +60,11 @@ build_vxworks() {
 
     cd src
     # $GOROOT/bin/go install cmd/compile
-    ./make.bash
+    echo '[BUILD] Building cmd/link...'
+    $GOROOT/bin/go install -tags unix cmd/link
+    echo '[BUILD] Building cmd/compile...'
+    $GOROOT/bin/go install -tags unix cmd/compile
+    # ./make.bash
 }
 
 

@@ -73,7 +73,7 @@ func linknew(arch *sys.Arch) *Link {
 func (ctxt *Link) computeTLSOffset() {
 	switch ctxt.HeadType {
 	default:
-		log.Fatalf("unknown thread-local storage offset for %v, %v", ctxt.HeadType, objabi.Hvxworks)
+		log.Fatalf("unknown thread-local storage offset for %v", ctxt.HeadType)
 
 	case objabi.Hplan9, objabi.Hwindows, objabi.Hjs, objabi.Haix:
 		break

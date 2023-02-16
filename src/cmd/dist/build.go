@@ -319,9 +319,11 @@ func compilerEnvLookup(m map[string]string, goos, goarch string) string {
 
 // rmworkdir deletes the work directory.
 func rmworkdir() {
+
 	if vflag > 1 {
 		errprintf("rm -rf %s\n", workdir)
 	}
+
 	xremoveall(workdir)
 }
 
