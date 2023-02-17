@@ -1,0 +1,47 @@
+
+* exec
+:PROPERTIES:
+:org-remark-file: exec.go
+:END:
+
+** func (b *Builder) link(ctx context.Context, a *Action) (err error) { 
+:PROPERTIES:
+:org-remark-beg: 40132
+:org-remark-end: 40201
+:org-remark-id: 4565447e
+:org-remark-label: nil
+:org-remark-link: [[file:exec.go::1336]]
+:END:
+go build linking phase
+
+** cmd
+exact location where external commands are being ran
+* gc
+:PROPERTIES:
+:org-remark-file: gc.go
+:END:
+
+** 	return b.run(root, dir, root.Package.ImportPath, env, cfg.BuildToolexec, base.Tool("link"), "-o", out, "-importcfg", importcfg, ldflags, mainpkg) 
+:PROPERTIES:
+:org-remark-beg: 22239
+:org-remark-end: 22386
+:org-remark-id: 5cb339b6
+:org-remark-label: nil
+:org-remark-link: [[file:gc.go::683]]
+:END:
+go tool link being invoked here
+
+* buildid
+:PROPERTIES:
+:org-remark-file: buildid.go
+:END:
+
+** "-toolexec toolstash"
+:PROPERTIES:
+:org-remark-beg: 5437
+:org-remark-end: 5458
+:org-remark-id: 656c3b34
+:org-remark-label: nil
+:org-remark-link: [[file:buildid.go::122]]
+:END:
+what's toolstash? sounds like it could be used to 'version manage' go tools? investigate later
