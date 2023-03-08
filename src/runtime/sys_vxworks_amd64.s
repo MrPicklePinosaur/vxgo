@@ -55,6 +55,8 @@
 #define SYS_epoll_create1	291
 #define SYS_pipe2		293
 
+#define SYS_taskParamCtl 1026
+
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
 	MOVL	$SYS_exit_group, AX
@@ -639,19 +641,17 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 
 // set tls base to DI
 TEXT runtime·settls(SB),NOSPLIT,$32
-#ifdef GOOS_android
-	// Android stores the TLS offset in runtime·tls_g.
-	SUBQ	runtime·tls_g(SB), DI
-#else
 	ADDQ	$8, DI	// ELF wants to use -8(FS)
-#endif
-	MOVQ	DI, SI
-	MOVQ	$0x1002, DI	// ARCH_SET_FS
-	MOVQ	$SYS_arch_prctl, AX
+	PUSHQ	DI
+    LEAQ    0(SP), DX
+	MOVQ	$29, SI	// VX_TASK_CTL_SET_TLS_BASE
+	MOVQ	$SYS_taskParamCtl, AX
+    MOVQ    $0, DI  // task_id of 0 means current task
 	SYSCALL
 	CMPQ	AX, $0xfffffffffffff001
 	JLS	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
+    POPQ    DI
 	RET
 
 TEXT runtime·osyield(SB),NOSPLIT,$0

@@ -36,6 +36,7 @@ build_next() {
     $GOROOT/bin/go install cmd/compile
     $GOROOT/bin/go install cmd/link
     # ./make.bash
+    # ./all.bash
 }
 
 # build next with system toolchain

@@ -5093,7 +5093,7 @@ func (ab *AsmBuf) doasm(ctxt *obj.Link, cursym *obj.LSym, p *obj.Prog) {
 
 							log.Fatalf("unknown TLS base location for %v", ctxt.Headtype)
 
-						case objabi.Hlinux, objabi.Hfreebsd, objabi.Hvxworks:
+						case objabi.Hlinux, objabi.Hfreebsd:
 							if ctxt.Flag_shared {
 								// Note that this is not generating the same insns as the other cases.
 								//     MOV TLS, dst

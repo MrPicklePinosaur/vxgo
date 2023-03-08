@@ -250,6 +250,10 @@ needtls:
 	// skip TLS setup on OpenBSD
 	JMP ok
 #endif
+// #ifdef GOOS_vxworks
+// 	// skip TLS setup on VxWorks
+// 	JMP ok
+// #endif
 
 	LEAQ	runtime·m0+m_tls(SB), DI
 	CALL	runtime·settls(SB)
