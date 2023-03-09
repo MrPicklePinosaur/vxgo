@@ -17,6 +17,7 @@ package cgo
 #cgo freebsd LDFLAGS: -lpthread
 #cgo android LDFLAGS: -llog
 #cgo !android,linux LDFLAGS: -lpthread
+#cgo vxworks LDFLAGS: -lpthread
 #cgo netbsd LDFLAGS: -lpthread
 #cgo openbsd LDFLAGS: -lpthread
 #cgo aix LDFLAGS: -Wl,-berok
