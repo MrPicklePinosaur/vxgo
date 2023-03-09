@@ -1,0 +1,39 @@
+
+* asm_amd64
+:PROPERTIES:
+:org-remark-file: asm_amd64.s
+:END:
+
+** runtime·rt0
+:PROPERTIES:
+:org-remark-beg: 5646
+:org-remark-end: 5657
+:org-remark-id: 4a93a4ee
+:org-remark-label: nil
+:org-remark-link: [[file:asm_amd64.s::159]]
+:END:
+
+** TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0 
+:PROPERTIES:
+:org-remark-beg: 5641
+:org-remark-end: 5685
+:org-remark-id: f5b8b0bc
+:org-remark-label: nil
+:org-remark-link: [[file:asm_amd64.s::159]]
+:END:
+start of bootstrapping
+
+* runtime2
+:PROPERTIES:
+:org-remark-file: runtime2.go
+:END:
+
+** type m struct { 
+:PROPERTIES:
+:org-remark-beg: 20171
+:org-remark-end: 20187
+:org-remark-id: f80ca6f3
+:org-remark-label: nil
+:org-remark-link: [[file:runtime2.go::519]]
+:END:
+M struct definition

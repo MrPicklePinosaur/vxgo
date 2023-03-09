@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BOOTSTRAP_VERSION="vxworks_0.2"
+BOOTSTRAP_VERSION="vxworks_0.3"
 
 # utility script used in process of porting golang to vxworks
 
@@ -12,8 +12,11 @@ build_bootstrap() {
     export GOROOT_BOOTSTRAP="" # which go compiler to use to build
     export GOROOT="$(pwd)"
     export GOTOOLSDIR="./pkg/" # where to install tools
+    export GOOS="linux"
+    export GOARCH="amd64"
 
     INSTALL_DIR="$HOME/Temp/go_versions/$BOOTSTRAP_VERSION"
+    mkdir -p $INSTALL_DIR
 
     cd src
     ./make.bash
@@ -38,6 +41,15 @@ build_next() {
     $GOROOT/bin/go install cmd/cgo
     # ./make.bash
     # ./all.bash
+}
+
+testing() {
+    export GOOS=vxworks
+    export GOARCH=amd64
+    export GCFLAGS="all=-N -l"
+    export CGO_ENABLED=1
+    export GOROOT="$(pwd)"
+    ~/Installs/goroot/bin/go test -tags 'unix' -run TestTaskParamCtl -v -count=1 runtime
 }
 
 # build next with system toolchain
@@ -76,5 +88,6 @@ case $1 in
     next) build_next;;
     next_system) build_next_system;;
     vxworks) build_vxworks;;
+    test) testing;;
     *) echo "invalid operation";;
 esac

@@ -2,9 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build: cgo
-// +build: vxworks
-// +build: amd64
+// +build cgo,vxworks,amd64
 
 #include <pthread.h>
 #include <errno.h>
