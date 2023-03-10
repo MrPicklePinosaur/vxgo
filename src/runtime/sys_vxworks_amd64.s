@@ -55,7 +55,69 @@
 #define SYS_epoll_create1	291
 #define SYS_pipe2		293
 
-#define SYS_taskParamCtl 1026
+// Call a library function with SysV calling conventions.
+// The called function can take a maximum of 6 INTEGER class arguments,
+// see
+//   Michael Matz, Jan Hubicka, Andreas Jaeger, and Mark Mitchell
+//   System V Application Binary Interface
+//   AMD64 Architecture Processor Supplement
+// section 3.2.3.
+//
+// Called by runtime·asmcgocall or runtime·cgocall.
+// NOT USING GO CALLING CONVENTION.
+//
+// TODO refactor to go calling convention
+TEXT runtime·asmsysvicall6(SB),NOSPLIT,$0
+	// asmcgocall will put first argument into DI.
+	PUSHQ	DI			// save for later
+	MOVQ	libcall_fn(DI), AX
+	MOVQ	libcall_args(DI), R11
+	MOVQ	libcall_n(DI), R10
+
+	get_tls(CX)
+	MOVQ	g(CX), BX
+	CMPQ	BX, $0
+	JEQ	skiperrno1
+	MOVQ	g_m(BX), BX
+	MOVQ	(m_mOS+mOS_perrno)(BX), DX
+	CMPQ	DX, $0
+	JEQ	skiperrno1
+	MOVL	$0, 0(DX)
+
+skiperrno1:
+	CMPQ	R11, $0
+	JEQ	skipargs
+	// Load 6 args into correspondent registers.
+	MOVQ	0(R11), DI
+	MOVQ	8(R11), SI
+	MOVQ	16(R11), DX
+	MOVQ	24(R11), CX
+	MOVQ	32(R11), R8
+	MOVQ	40(R11), R9
+skipargs:
+
+	// Call SysV function
+	CALL	AX
+
+	// Return result
+	POPQ	DI
+	MOVQ	AX, libcall_r1(DI)
+	MOVQ	DX, libcall_r2(DI)
+
+	get_tls(CX)
+	MOVQ	g(CX), BX
+	CMPQ	BX, $0
+	JEQ	skiperrno2
+	MOVQ	g_m(BX), BX
+	MOVQ	(m_mOS+mOS_perrno)(BX), AX
+	CMPQ	AX, $0
+	JEQ	skiperrno2
+	MOVL	0(AX), AX
+	MOVQ	AX, libcall_err(DI)
+
+skiperrno2:
+	RET
+
 
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
@@ -640,18 +702,17 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	RET
 
 // set tls base to DI
-TEXT runtime·settls(SB),NOSPLIT,$32
+TEXT runtime·settls(SB),NOSPLIT,$32-0
 	ADDQ	$8, DI	// ELF wants to use -8(FS)
-	PUSHQ	DI
-    LEAQ    0(SP), DX
-	MOVQ	$29, SI	// VX_TASK_CTL_SET_TLS_BASE
-	MOVQ	$SYS_taskParamCtl, AX
-    MOVQ    $0, DI  // task_id of 0 means current task
-	SYSCALL
+    MOVL    $0, 0(SP) // task_id of 0 means current task
+    MOVL    $29, 4(SP) // VX_TASK_CTL_SET_TLS_BASE
+    MOVQ    DI, 8(SP)
+	LEAQ	libc_dummy(SB), AX
+	CALL	AX
+    MOVQ    16(SP), AX
 	CMPQ	AX, $0xfffffffffffff001
 	JLS	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
-    POPQ    DI
 	RET
 
 TEXT runtime·osyield(SB),NOSPLIT,$0

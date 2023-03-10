@@ -19,6 +19,10 @@ import (
 // binaries.
 const sigPerThreadSyscall = _SIGRTMIN + 1
 
+type mscratch struct {
+	v [6]uintptr
+}
+
 type mOS struct {
 	// profileTimer holds the ID of the POSIX interval timer for profiling CPU
 	// usage on this thread.
@@ -33,7 +37,17 @@ type mOS struct {
 	// needPerThreadSyscall indicates that a per-thread syscall is required
 	// for doAllThreadsSyscall.
 	needPerThreadSyscall atomic.Uint8
+
+	// TODO:port introduce scratch field?
+	scratch mscratch
+
+	perrno   *int32  // pointer to tls errno
 }
+
+//go:linkname asmsysvicall6x runtime.asmsysvicall6
+var asmsysvicall6x libcFunc // name to take addr of asmsysvicall6
+
+func asmsysvicall6() // declared for vet; do NOT call
 
 //go:noescape
 func futex(addr unsafe.Pointer, op int32, val uint32, ts, addr2 unsafe.Pointer, val3 uint32) int32

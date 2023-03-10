@@ -49,7 +49,7 @@ testing() {
     export GCFLAGS="all=-N -l"
     export CGO_ENABLED=1
     export GOROOT="$(pwd)"
-    ~/Installs/goroot/bin/go test -tags 'unix' -run TestTaskParamCtl -v -count=1 runtime
+    ~/Installs/goroot/bin/go test -tags 'unix' -run TestPutchar -v -count=1 runtime
 }
 
 # build next with system toolchain
