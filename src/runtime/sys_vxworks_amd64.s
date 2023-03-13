@@ -118,6 +118,26 @@ skipargs:
 skiperrno2:
 	RET
 
+TEXT runtime·taskparamctl_trampoline(SB),NOSPLIT,$0
+    PUSHQ    BP
+    MOVQ     SP, BP
+    MOVQ     DI, BX   // move DI into BX to preserve struct addr
+    MOVQ     8(BX), DX   // arg 3 pArg
+    MOVQ     4(BX), SI   // arg 2 command
+    MOVQ     0(BX), DI   // arg 1 tid
+    CALL     libc_res_search(SB)
+    XORL     DX, DX
+    CMPQ     AX, $-1
+    JNE ok
+    CALL     libc_error(SB)
+    MOVLQSX  (AX), DX             // move return from libc_error into DX
+    XORL     AX, AX               // size on error is 0
+ok:
+    MOVQ    AX, 16(BX) // size
+    MOVQ    DX, 20(BX) // error code
+    POPQ    BP
+    RET
+
 
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
@@ -703,11 +723,11 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 
 // set tls base to DI
 TEXT runtime·settls(SB),NOSPLIT,$32-0
-	ADDQ	$8, DI	// ELF wants to use -8(FS)
     MOVL    $0, 0(SP) // task_id of 0 means current task
     MOVL    $29, 4(SP) // VX_TASK_CTL_SET_TLS_BASE
+	ADDQ	$8, DI	// ELF wants to use -8(FS)
     MOVQ    DI, 8(SP)
-	LEAQ	libc_dummy(SB), AX
+	LEAQ	libc_taskParamCtl(SB), AX
 	CALL	AX
     MOVQ    16(SP), AX
 	CMPQ	AX, $0xfffffffffffff001
