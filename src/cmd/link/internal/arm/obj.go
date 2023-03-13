@@ -68,6 +68,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Netbsddynld:    "/libexec/ld.elf_so",
 		Dragonflydynld: "XXX",
 		Solarisdynld:   "XXX",
+		Vxworksdynld:   "XXX",
 	}
 
 	return arch, theArch

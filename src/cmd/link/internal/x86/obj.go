@@ -66,6 +66,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Openbsddynld: "/usr/libexec/ld.so",
 		Netbsddynld:  "/usr/libexec/ld.elf_so",
 		Solarisdynld: "/lib/ld.so.1",
+		Vxworksdynld:   "XXX",
 	}
 
 	return arch, theArch

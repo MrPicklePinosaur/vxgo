@@ -46,6 +46,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Openbsddynld:   "XXX",
 		Dragonflydynld: "XXX",
 		Solarisdynld:   "XXX",
+		Vxworksdynld:   "XXX",
 	}
 
 	return arch, theArch

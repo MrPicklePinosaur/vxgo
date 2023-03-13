@@ -1785,7 +1785,7 @@ func asmbElf(ctxt *Link) {
 				}
 
 			case objabi.Hvxworks:
-				interpreter = thearch.Linuxdynld
+				interpreter = thearch.Vxworksdynld
 
 			case objabi.Hfreebsd:
 				interpreter = thearch.Freebsddynld

@@ -35,11 +35,11 @@ build_next() {
     export GOARCH="amd64"
 
     cd src
-    $GOROOT/bin/go install cmd/go
-    $GOROOT/bin/go install cmd/compile
-    $GOROOT/bin/go install cmd/link
-    $GOROOT/bin/go install cmd/cgo
-    # ./make.bash
+    # $GOROOT/bin/go install cmd/go
+    # $GOROOT/bin/go install cmd/compile
+    # $GOROOT/bin/go install cmd/link
+    # $GOROOT/bin/go install cmd/cgo
+    ./make.bash
     # ./all.bash
 }
 
